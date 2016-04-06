@@ -7,11 +7,14 @@ angular.module('RockPaperScissorsApp', [])
 		var SCISSORS = "Scissors";
 
 		var TIE = "Tie!";
-		var PLAYERWIN = "Player wins!"
-		var AIWIN = "AI wins!"
+		var PLAYERWIN = "Player wins!";
+		var AIWIN = "AI wins!";
+
+		$scope.scorePercent = ["0%", "0%", "0%"];
 
 		//Scorekeeping
 		$scope.score = [0,0,0];
+		$scope.totalGames = 0;
 
 		$scope.rock = function rock(){
 			playRound(ROCK);
@@ -25,13 +28,15 @@ angular.module('RockPaperScissorsApp', [])
 
 		function playRound(playerMove){
 			$scope.playerMove = playerMove;
-			console.log("Player: "+playerMove);
+			
 			aiMove = randomMove(3, 1);
 			$scope.aiMove = aiMove;
-			console.log("AI: "+aiMove);
+			
 			result = resolveWinner(playerMove, aiMove);
+			$scope.totalGames++;
+			
+			calculateScorePercent();
 			$scope.result = result;
-			console.log(result);
 		}
 
 		function randomMove(){
@@ -84,5 +89,27 @@ angular.module('RockPaperScissorsApp', [])
 				}
 				
 			}
+		}
+
+		function calculateScorePercent(){
+			console.log("score: "+$scope.score);
+			console.log("totalGames "+$scope.totalGames);
+			if($scope.score[0] != 0){
+				$scope.scorePercent[0] = (($scope.score[0]/$scope.totalGames)*100) + "%";
+			} else {
+				$scope.scorePercent[0] == "0%"
+			}
+			if($scope.score[2] != 0){
+				$scope.scorePercent[2] = (($scope.score[2]/$scope.totalGames)*100) + "%";
+			} else {
+				$scope.scorePercent[2] == "0%"
+			}
+			if($scope.score[1] != 0){
+				$scope.scorePercent[1] = (($scope.score[1]/$scope.totalGames)*100) + "%";
+			} else {
+				$scope.scorePercent[1] == "0%"
+			}
+			
+			console.log($scope.scorePercent);
 		}
 });

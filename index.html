@@ -2,13 +2,14 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Rock Paper Scissors Artificial Intelligence</title>
 	<link rel="stylesheet" href="css/bootstrap.css">
 	<link rel="stylesheet" href="css/style.css">
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.3/angular.js"></script>
+	<link rel="stylesheet" href="css/font-awesome.css">
+	<script src="js/jquery.js"></script>
+	<script src="js/bootstrap.js"></script>
+	<script src="js/angular.js"></script>
 	<script src="js/rockPaperScissorsApp.js"></script>
 
 </head>
@@ -31,7 +32,7 @@
 
 	<div class="container" ng-controller="RockPaperScissorsController">
 		<div class="row">
-			<div class="col-sm-6">
+			<div class="col-sm-12">
 				<h2 class="text-center">Make your move</h2>
 				<br>
 				<div class="btn-group btn-group-justified">
@@ -39,10 +40,15 @@
 					<a ng-click="paper()" class="btn btn-default"><i class="fa fa-lg fa-hand-paper-o"></i> Paper</a>
 					<a ng-click="scissors()" class="btn btn-default"><i class="fa fa-lg fa-hand-scissors-o"></i> Scissors</a>
 				</div>
-				<h3>Player: {{playerMove}}</h3>
-				<h3>Skynet Jr: {{aiMove}}</h3>
+				<h3>Player - {{playerMove}} vs. {{aiMove}} - Skynet Jr</h3>
 				<h3>Winner: {{result}}</h3>
 				<h3>Score: {{score[0]}}-{{score[1]}}-{{score[2]}}</h3>
+				<h3>Total Games: {{totalGames}}</h3>
+				<div class="progress">
+					<div class="progress-bar progress-bar-success" ng-style="{'width': scorePercent[0]}"></div>
+					<div class="progress-bar progress-bar-warning" ng-style="{'width': scorePercent[1]}"></div>
+					<div class="progress-bar progress-bar-danger" ng-style="{'width': scorePercent[2]}"></div>
+				</div>
 			</div>
 			<div class="col-sm-6"></div>
 		</div>
