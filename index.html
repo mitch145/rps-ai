@@ -35,16 +35,16 @@
 					<a ng-click="scissors()" class="btn btn-default"><i class="fa fa-lg fa-hand-scissors-o"></i> Scissors</a>
 				</div>
 				<div class="text-center">
-					<h3>Player - <i ng-class="playerIcon" class="fa fa-lg"></i> vs. <i ng-class="aiIcon" class="fa fa-lg"></i> - AI</h3>
-					<h3>Winner: {{result}}</h3>
-					<h3>Score: {{score[0]}}-{{score[1]}}-{{score[2]}}</h3>
+					<h3>Player - <i ng-class="playerMove.icon" class="fa fa-lg"></i> vs. <i ng-class="aiIcon" class="fa fa-lg"></i> - AI</h3>
+					<h3>Winner: {{result.message}}</h3>
+					<h3>Score: {{score.scores[0]}}-{{score.scores[1]}}-{{score.scores[2]}}</h3>
 					<h3>Total Games: {{totalGames}}</h3>
 				</div>
 
 				<div class="progress">
-					<div class="progress-bar progress-bar-success" data-toggle="tooltip" data-placement="bottom" data-original-title="Player Wins" ng-style="{'width': scorePercent[0]}"></div>
-					<div class="progress-bar progress-bar-warning" data-toggle="tooltip" data-placement="bottom" data-original-title="Ties" ng-style="{'width': scorePercent[1]}"></div>
-					<div class="progress-bar progress-bar-danger" data-toggle="tooltip" data-placement="bottom" data-original-title="AI Wins" ng-style="{'width': scorePercent[2]}"></div>
+					<div class="progress-bar progress-bar-success" data-toggle="tooltip" data-placement="bottom" data-original-title="Player Wins" ng-style="{'width': score.scorePercent[0]}"></div>
+					<div class="progress-bar progress-bar-warning" data-toggle="tooltip" data-placement="bottom" data-original-title="Ties" ng-style="{'width': score.scorePercent[1]}"></div>
+					<div class="progress-bar progress-bar-danger" data-toggle="tooltip" data-placement="bottom" data-original-title="AI Wins" ng-style="{'width': score.scorePercent[2]}"></div>
 				</div>
 			</div>
 			

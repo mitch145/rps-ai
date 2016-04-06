@@ -1,142 +1,101 @@
 angular.module('RockPaperScissorsApp', [])
 	.controller('RockPaperScissorsController', function($scope) {
+
+		// Enable tooltips
 		$(function () {
-			$('[data-toggle="tooltip"]').tooltip()
+			$('[data-toggle="tooltip"]').tooltip();
 		});
-		//Constant declarations
-		var ROCK = 'Rock';
-		var PAPER = "Paper";
-		var SCISSORS = "Scissors";
 
-		$scope.rockIcon = "fa-hand-rock-o";
-		$scope.paperIcon = "fa-hand-paper-o";
-		$scope.scissorsIcon = "fa-hand-scissors-o";
+		// List of moves
+		$scope.moves = {
+			'rock' : {id: 'rock', name: 'Rock', beats: 'scissors', icon: 'fa-hand-rock-o'},
+			'paper' : {id: 'paper', name: 'Paper', beats: 'rock', icon: 'fa-hand-paper-o'},
+			'scissors' : {id: 'scissors', name: 'Scissors', beats: 'paper', icon: 'fa-hand-scissors-o'}
+		};
 
-		var TIE = "Tie!";
-		var PLAYERWIN = "Player wins!";
-		var AIWIN = "AI wins!";
+		// Possible results
+		$scope.results = {
+			'tie' : {id: 'tie', message: 'Tie!'},
+			'playerWin' : {id: 'playerWin', message: 'Player Wins!'},
+			'aiWin' : {id: 'aiWin', message: 'AI Wins!'}
+		};
 
-		$scope.scorePercent = ["0%", "0%", "0%"];
-
-		//Scorekeeping
-		$scope.score = [0,0,0];
-		$scope.totalGames = 0;
+		// Scorekeeping setup
+		$scope.score = {
+			scores: [0,0,0],
+			scorePercent: ["0%", "0%", "0%"],
+			totalGames: 0
+		};
 
 		$scope.rock = function rock(){
-			playRound(ROCK);
+			playRound($scope.moves['rock']);
 		};
 		$scope.paper = function paper(){
-			playRound(PAPER);
+			playRound($scope.moves['paper']);
 		};
 		$scope.scissors = function scissors(){
-			playRound(SCISSORS);
+			playRound($scope.moves['scissors']);
 		};
 
 		function playRound(playerMove){
-			setPlayerMove(playerMove);
 			aiMove = setAIMove();
 			
 			result = resolveWinner(playerMove, aiMove);
-			$scope.totalGames++;
+			$scope.score.totalGames++;
 			
 			calculateScorePercent();
 			$scope.result = result;
 		}
 
-		function setPlayerMove(playerMove){
-			$scope.playerMove = playerMove;
-			if (playerMove == ROCK){
-				$scope.playerIcon = $scope.rockIcon;
-			} else if (playerMove == PAPER){
-				$scope.playerIcon = $scope.paperIcon;
-			} else {
-				$scope.playerIcon = $scope.scissorsIcon;
-			}
-		}
-
 		function setAIMove(aiMove){
-			aiMove = randomMove(3, 1);
-			$scope.aiMove = aiMove;
-			if ($scope.aiMove == ROCK){
-				$scope.aiIcon = $scope.rockIcon;
-			} else if ($scope.aiMove == PAPER){
-				$scope.aiIcon = $scope.paperIcon;
+			aiMove = randomInt(1,3);
+			if (aiMove == 1){
+				return $scope.moves['rock'];
+			} else if (aiMove == 2){
+				return $scope.moves['paper'];
 			} else {
-				$scope.aiIcon = $scope.scissorsIcon;
+				return $scope.moves['scissors'];
 			}
-			return aiMove;
 		}
 
-		function randomMove(){
-			min = 1;
-			max = 3;
-			move = Math.floor(Math.random() * (max - min + 1) + min);
-			if(move == 1){
-				return ROCK;
-			} else if (move == 2){
-				return PAPER;
-			} else {
-				return SCISSORS;
-			}
+		function randomInt(min, max){
+			randomNum = Math.floor(Math.random() * (max - min + 1) + min);
+			return randomNum;
 		}
 
 		function resolveWinner(playerMove, aiMove){
-			if (playerMove == ROCK){
-				if (aiMove == ROCK){
-					$scope.score[1]++;
-					return TIE;
-				} else if (aiMove == PAPER){
-					$scope.score[2]++;
-					return AIWIN;
-				} else if (aiMove == SCISSORS){
-					$scope.score[0]++;
-					return PLAYERWIN;
-				}
-			} else if (playerMove == PAPER){
-				if (aiMove == ROCK){
-					$scope.score[0]++;
-					return PLAYERWIN;
-				} else if (aiMove == PAPER){
-					$scope.score[1]++;
-					return TIE;
-				} else if (aiMove == SCISSORS){
-					$scope.score[2]++;
-					return AIWIN;
-				}
-				
-			} else if (playerMove == SCISSORS){
-				if (aiMove == ROCK){
-					$scope.score[2]++;
-					return AIWIN;
-				} else if (aiMove == PAPER){
-					$scope.score[0]++;
-					return PLAYERWIN;
-				} else if (aiMove == SCISSORS){
-					$scope.score[1]++;
-					return TIE;
-				}
-				
+			console.log("Player: " + playerMove.name);
+			console.log("AI: " + aiMove.name);
+			if (playerMove == aiMove){
+				$scope.score.scores[1]++;
+				return $scope.results['tie'];
+			} else if (playerMove.beats == aiMove.id){
+				$scope.score.scores[0]++;
+				return $scope.results['playerWin'];
+			} else if (aiMove.beats == playerMove.id){
+				$scope.score.scores[2]++;
+				return $scope.results['aiWin'];
 			}
 		}
 
 		function calculateScorePercent(){
-			console.log("score: "+$scope.score);
-			console.log("totalGames "+$scope.totalGames);
-			if($scope.score[0] != 0){
-				$scope.scorePercent[0] = (($scope.score[0]/$scope.totalGames)*100) + "%";
+			console.log("score: "+$scope.score.scores);
+			console.log("totalGames "+$scope.score.totalGames);
+			if($scope.score.scores[0] != 0){
+				$scope.score.scorePercent[0] = (($scope.score.scores[0]/$scope.score.totalGames)*100) + "%";
 			} else {
-				$scope.scorePercent[0] == "0%"
+				$scope.score.scorePercent[0] = "0%";
 			}
-			if($scope.score[2] != 0){
-				$scope.scorePercent[2] = (($scope.score[2]/$scope.totalGames)*100) + "%";
+			if($scope.score.scores[2] != 0){
+				$scope.score.scorePercent[2] = (($scope.score.scores[2]/$scope.score.totalGames)*100) + "%";
 			} else {
-				$scope.scorePercent[2] == "0%"
+				$scope.score.scorePercent[2] = "0%";
 			}
-			if($scope.score[1] != 0){
-				$scope.scorePercent[1] = (($scope.score[1]/$scope.totalGames)*100) + "%";
+			if($scope.score.scores[1] != 0){
+				$scope.score.scorePercent[1] = (($scope.score.scores[1]/$scope.score.totalGames)*100) + "%";
 			} else {
-				$scope.scorePercent[1] == "0%"
+				$scope.score.scorePercent[1] = "0%";
 			}
-			console.log($scope.scorePercent);
+			console.log($scope.score.scorePercent);
 		}
 });
