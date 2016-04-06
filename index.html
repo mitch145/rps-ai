@@ -35,7 +35,7 @@
 					<a ng-click="scissors()" class="btn btn-default"><i class="fa fa-lg fa-hand-scissors-o"></i> Scissors</a>
 				</div>
 				<div class="text-center">
-					<h3>Player - {{playerMove}} vs. {{aiMove}} - Skynet Jr</h3>
+					<h3>Player - <i ng-class="playerIcon" class="fa fa-lg"></i> vs. <i ng-class="aiIcon" class="fa fa-lg"></i> - AI</h3>
 					<h3>Winner: {{result}}</h3>
 					<h3>Score: {{score[0]}}-{{score[1]}}-{{score[2]}}</h3>
 					<h3>Total Games: {{totalGames}}</h3>
@@ -47,7 +47,7 @@
 					<div class="progress-bar progress-bar-danger" data-toggle="tooltip" data-placement="bottom" data-original-title="AI Wins" ng-style="{'width': scorePercent[2]}"></div>
 				</div>
 			</div>
-			<div class="col-sm-6"></div>
+			
 		</div>
 	</div>
 

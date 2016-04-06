@@ -4,9 +4,13 @@ angular.module('RockPaperScissorsApp', [])
 			$('[data-toggle="tooltip"]').tooltip()
 		});
 		//Constant declarations
-		var ROCK = "Rock";
+		var ROCK = 'Rock';
 		var PAPER = "Paper";
 		var SCISSORS = "Scissors";
+
+		$scope.rockIcon = "fa-hand-rock-o";
+		$scope.paperIcon = "fa-hand-paper-o";
+		$scope.scissorsIcon = "fa-hand-scissors-o";
 
 		var TIE = "Tie!";
 		var PLAYERWIN = "Player wins!";
@@ -29,16 +33,39 @@ angular.module('RockPaperScissorsApp', [])
 		};
 
 		function playRound(playerMove){
-			$scope.playerMove = playerMove;
-			
-			aiMove = randomMove(3, 1);
-			$scope.aiMove = aiMove;
+			setPlayerMove(playerMove);
+			aiMove = setAIMove();
+			console.log("aiMove: "+aiMove)
 			
 			result = resolveWinner(playerMove, aiMove);
 			$scope.totalGames++;
 			
 			calculateScorePercent();
 			$scope.result = result;
+		}
+
+		function setPlayerMove(playerMove){
+			$scope.playerMove = playerMove;
+			if (playerMove == ROCK){
+				$scope.playerIcon = $scope.rockIcon;
+			} else if (playerMove == PAPER){
+				$scope.playerIcon = $scope.paperIcon;
+			} else {
+				$scope.playerIcon = $scope.scissorsIcon;
+			}
+		}
+
+		function setAIMove(aiMove){
+			aiMove = randomMove(3, 1);
+			$scope.aiMove = aiMove;
+			if ($scope.aiMove == ROCK){
+				$scope.aiIcon = $scope.rockIcon;
+			} else if ($scope.aiMove == PAPER){
+				$scope.aiIcon = $scope.paperIcon;
+			} else {
+				$scope.aiIcon = $scope.scissorsIcon;
+			}
+			return aiMove;
 		}
 
 		function randomMove(){
