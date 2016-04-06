@@ -1,6 +1,8 @@
 angular.module('RockPaperScissorsApp', [])
 	.controller('RockPaperScissorsController', function($scope) {
-		
+		$(function () {
+			$('[data-toggle="tooltip"]').tooltip()
+		});
 		//Constant declarations
 		var ROCK = "Rock";
 		var PAPER = "Paper";
