@@ -35,7 +35,6 @@ angular.module('RockPaperScissorsApp', [])
 		function playRound(playerMove){
 			setPlayerMove(playerMove);
 			aiMove = setAIMove();
-			console.log("aiMove: "+aiMove)
 			
 			result = resolveWinner(playerMove, aiMove);
 			$scope.totalGames++;
@@ -138,7 +137,6 @@ angular.module('RockPaperScissorsApp', [])
 			} else {
 				$scope.scorePercent[1] == "0%"
 			}
-			
 			console.log($scope.scorePercent);
 		}
 });
