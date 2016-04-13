@@ -23,26 +23,11 @@ angular.module('Game',[])
 		this.playRound = function(playerMove){
 			aiMove = this.setAIMove();
 			
-			result = this.resolveWinner(playerMove, aiMove);
+			this.score.result = this.resolveWinner(playerMove, aiMove);
 			this.score.totalGames++;
 			
 			this.calculateScorePercent();
-			this.score.result = result;
 		};
-		this.setAIMove = function(aiMove){
-			aiMove = this.randomInt(1,3);
-			if (aiMove == 1){
-				return this.moves['rock'];
-			} else if (aiMove == 2){
-				return this.moves['paper'];
-			} else {
-				return this.moves['scissors'];
-			}
-		};
-		this.randomInt = function(min, max){
-			randomNum = Math.floor(Math.random() * (max - min + 1) + min);
-			return randomNum;
-		}
 
 		this.resolveWinner = function(playerMove, aiMove){
 			console.log("Player: " + playerMove.name);
@@ -81,4 +66,17 @@ angular.module('Game',[])
 		};
 		// Update score
 		this.updateScore = function(){};
+
+		this.setAIMove = function(aiMove){
+			min = 1;
+			max = 3;
+			aiMove = Math.floor(Math.random() * (max - min + 1) + min);
+			if (aiMove == 1){
+				return this.moves['rock'];
+			} else if (aiMove == 2){
+				return this.moves['paper'];
+			} else {
+				return this.moves['scissors'];
+			}
+		};
 	});
