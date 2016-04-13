@@ -27,8 +27,20 @@
 
 	<div class="container" ng-controller="GameController as GameCtrl">
 		<div class="row">
-			<div class="col-sm-12">
-				<h2 class="text-center">Make your move</h2>
+			<div class="col-sm-12" ng-show="GameCtrl.choice">
+				<h2 class="text-center">Pick your AI:</h2>
+				<br>
+				<div class="btn-group btn-group-justified">
+					<a ng-click="GameCtrl.sendAIChoice('random')" class="btn btn-default">Random AI</a>
+					<a ng-click="GameCtrl.sendAIChoice('basic')" class="btn btn-default">Basic AI</a>
+				</div>
+				<div class="btn btn-lg center-block full-width">
+					<a ng-click="GameCtrl.finaliseAIChoice()" class="btn btn-primary btn-lg">Begin with {{GameCtrl.game.ai[GameCtrl.game.ai.current].name}}</a>
+				</div>
+				<br>
+			</div>
+			<div class="col-sm-12" ng-hide="GameCtrl.choice">
+				<h2 class="text-center">Make your Move:</h2>
 				<br>
 				<div class="btn-group btn-group-justified">
 					<a ng-click="GameCtrl.sendMove('rock')" class="btn btn-default"><i class="fa fa-lg fa-hand-rock-o"></i> Rock</a>

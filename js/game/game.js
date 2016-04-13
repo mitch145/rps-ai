@@ -19,19 +19,34 @@ angular.module('Game',[])
 			'playerWin' : {id: 'playerWin', message: 'Player Wins!'},
 			'aiWin' : {id: 'aiWin', message: 'AI Wins!'}
 		};
+		this.ai = {
+			current: 'random',
+			'random' : {
+				id: 'random',
+				name: 'Random'
+			},
+			'basic' : {
+				id: 'basic',
+				name: 'Basic'
+			}
+		};
+
+		// AI Choice
+		this.chooseAI = function(aiChoice){
+			this.ai.current = aiChoice;
+		};
+
 		// Play round
 		this.playRound = function(playerMove){
 			aiMove = this.setAIMove();
-			
 			this.score.result = this.resolveWinner(playerMove, aiMove);
 			this.score.totalGames++;
-			
 			this.calculateScorePercent();
 		};
 
 		this.resolveWinner = function(playerMove, aiMove){
 			console.log("Player: " + playerMove.name);
-			console.log("AI: " + aiMove.name);
+			console.log("AI - "+this.ai[this.ai.current].name+": " + aiMove.name);
 			if (playerMove == aiMove){
 				this.score.scores[1]++;
 				return this.results['tie'];
@@ -64,8 +79,6 @@ angular.module('Game',[])
 			}
 			console.log(this.score.scorePercent);
 		};
-		// Update score
-		this.updateScore = function(){};
 
 		this.setAIMove = function(aiMove){
 			min = 1;
