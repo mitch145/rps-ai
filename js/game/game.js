@@ -1,6 +1,8 @@
 angular.module('Game',[])
 	.service('GameManager', function(){
 		// Score
+		
+		
 		this.score = {
 			scores: [0,0,0],
 			scorePercent: ["0%", "0%", "0%"],
@@ -13,6 +15,10 @@ angular.module('Game',[])
 			'paper' : {id: 'paper', name: 'Paper', beats: 'rock', icon: 'fa-hand-paper-o'},
 			'scissors' : {id: 'scissors', name: 'Scissors', beats: 'paper', icon: 'fa-hand-scissors-o'}
 		};
+		//Placeholder code for move history
+		this.playerMove = this.moves['rock'];
+		this.aiMove = this.moves['rock'];
+
 		// Possible results
 		this.results = {
 			'tie' : {id: 'tie', message: 'Tie!'},
@@ -42,6 +48,8 @@ angular.module('Game',[])
 			this.score.result = this.resolveWinner(playerMove, aiMove);
 			this.score.totalGames++;
 			this.calculateScorePercent();
+			this.playerMove = playerMove;
+		this.aiMove = aiMove;
 		};
 
 		this.resolveWinner = function(playerMove, aiMove){

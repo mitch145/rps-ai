@@ -48,7 +48,9 @@
 					<a ng-click="GameCtrl.sendMove('scissors')" class="btn btn-default"><i class="fa fa-lg fa-hand-scissors-o"></i> Scissors</a>
 				</div>
 				<div class="text-center">
-					<h3>Player - <i ng-class="playerMove.icon" class="fa fa-lg"></i> vs. <i ng-class="aiIcon" class="fa fa-lg"></i> - AI</h3>
+					<!-- Placeholder for move history -->
+					<h3>Player - <i ng-class="GameCtrl.game.playerMove.icon" class="fa fa-lg"></i> vs. <i ng-class="GameCtrl.game.aiMove.icon" class="fa fa-lg"></i> - AI</h3>
+
 					<h3>Winner: {{GameCtrl.game.score.result.message}}</h3>
 					<h3>Score: {{GameCtrl.game.score.scores[0]}}-{{GameCtrl.game.score.scores[1]}}-{{GameCtrl.game.score.scores[2]}}</h3>
 					<h3>Total Games: {{totalGames}}</h3>

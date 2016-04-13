@@ -5,6 +5,7 @@ angular.module('RockPaperScissorsApp', ['Game'])
 		// Send move to game service
 		this.sendMove = function(move){
 			this.game.playRound(GameManager.moves[move]);
+			console.log(this.game.playerMove);
 		};
 
 		this.sendAIChoice = function(aiChoice){
