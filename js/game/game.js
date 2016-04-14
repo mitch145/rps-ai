@@ -1,24 +1,23 @@
 angular.module('Game',[])
 	.service('GameManager', function(){
-		// Score
-		
-		
+		// Scorekeeping setup
 		this.score = {
 			scores: [0,0,0],
 			scorePercent: ["0%", "0%", "0%"],
 			totalGames: 0,
 			result: 'N/A'
 		};
-		// List of moves
+		// List of possible moves
 		this.moves = {
 			'rock' : {id: 'rock', name: 'Rock', beats: 'scissors', icon: 'fa-hand-rock-o'},
 			'paper' : {id: 'paper', name: 'Paper', beats: 'rock', icon: 'fa-hand-paper-o'},
 			'scissors' : {id: 'scissors', name: 'Scissors', beats: 'paper', icon: 'fa-hand-scissors-o'}
 		};
-		//Placeholder code for move history
-		this.playerMove = this.moves['rock'];
+		// Code for move history
+		// 0 = rock, 1 = paper, 2 = scissors
+		this.playerMoves = [];
+		// Placeholder code for move history
 		this.aiMove = this.moves['rock'];
-
 		// Possible results
 		this.results = {
 			'tie' : {id: 'tie', message: 'Tie!'},
@@ -31,8 +30,8 @@ angular.module('Game',[])
 				id: 'random',
 				name: 'Random'
 			},
-			'basic' : {
-				id: 'basic',
+			'count' : {
+				id: 'count',
 				name: 'Basic'
 			}
 		};
@@ -44,6 +43,7 @@ angular.module('Game',[])
 
 		// Play round
 		this.playRound = function(playerMove){
+			this.playerMoves[this.playerMoves.length] = playerMove.id;
 			aiMove = this.setAIMove();
 			this.score.result = this.resolveWinner(playerMove, aiMove);
 			this.score.totalGames++;
@@ -68,8 +68,8 @@ angular.module('Game',[])
 		};
 
 		this.calculateScorePercent = function(){
-			console.log("score: "+this.score.scores);
-			console.log("totalGames "+this.score.totalGames);
+			console.log("Score: "+this.score.scores);
+			console.log("TotalGames "+this.score.totalGames);
 			if(this.score.scores[0] !== 0){
 				this.score.scorePercent[0] = ((this.score.scores[0]/this.score.totalGames)*100) + "%";
 			} else {
@@ -85,13 +85,21 @@ angular.module('Game',[])
 			} else {
 				this.score.scorePercent[1] = "0%";
 			}
-			console.log(this.score.scorePercent);
 		};
 
-		this.setAIMove = function(aiMove){
+		this.setAIMove = function(){
+			if(this.ai.current == 'count'){
+				aiMove = this.countAIMove();
+			} else if(this.ai.current == 'random'){
+				aiMove = this.randomAIMove();
+			}
+			return aiMove;
+		};
+		this.randomAIMove = function(){
 			min = 1;
 			max = 3;
 			aiMove = Math.floor(Math.random() * (max - min + 1) + min);
+			console.log("AI Logic: Just joking, it's random.")
 			if (aiMove == 1){
 				return this.moves['rock'];
 			} else if (aiMove == 2){
@@ -100,4 +108,35 @@ angular.module('Game',[])
 				return this.moves['scissors'];
 			}
 		};
+
+		this.countAIMove = function (){
+			rock = 0;
+			paper = 0;
+			scissors = 0;
+			for(i=0; i<this.playerMoves.length; i++){
+				if(this.playerMoves[i] == 'rock'){
+					rock++;
+				} else if(this.playerMoves[i] == 'paper'){
+					paper++;
+				} else if(this.playerMoves[i] == 'scissors'){
+					scissors++;
+				}
+			}
+			console.log("Ai Logic - " + "Rock: "+ rock + " - Paper: "+paper + " - Scissors: " + scissors);
+			if(rock > paper){
+				// rock > paper, scissors unknown
+				if (rock > scissors) {
+					// rock highest, return paper
+					return this.moves['paper'];
+				} else if(scissors > paper){
+					// scissors highest, return rock
+					return this.moves['rock'];
+				}
+			} else {
+				// default - program will bias to paper if even, return scissors
+				return this.moves['scissors'];
+			}
+			
+		};
+
 	});

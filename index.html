@@ -32,7 +32,7 @@
 				<br>
 				<div class="btn-group btn-group-justified">
 					<a ng-click="GameCtrl.sendAIChoice('random')" class="btn btn-default">Random AI</a>
-					<a ng-click="GameCtrl.sendAIChoice('basic')" class="btn btn-default">Basic AI</a>
+					<a ng-click="GameCtrl.sendAIChoice('count')" class="btn btn-default">Basic AI</a>
 				</div>
 				<div class="btn btn-lg center-block full-width">
 					<a ng-click="GameCtrl.finaliseAIChoice()" class="btn btn-primary btn-lg">Begin with {{GameCtrl.game.ai[GameCtrl.game.ai.current].name}}</a>
@@ -49,7 +49,7 @@
 				</div>
 				<div class="text-center">
 					<!-- Placeholder for move history -->
-					<h3>Player - <i ng-class="GameCtrl.game.playerMove.icon" class="fa fa-lg"></i> vs. <i ng-class="GameCtrl.game.aiMove.icon" class="fa fa-lg"></i> - AI</h3>
+					<h3>Player - {{GameCtrl.lastPlayerMove}}<i ng-class="" class="fa fa-lg"></i> vs. <i ng-class="" class="fa fa-lg"></i>{{GameCtrl.game.aiMove.id}} - AI</h3>
 
 					<h3>Winner: {{GameCtrl.game.score.result.message}}</h3>
 					<h3>Score: {{GameCtrl.game.score.scores[0]}}-{{GameCtrl.game.score.scores[1]}}-{{GameCtrl.game.score.scores[2]}}</h3>
