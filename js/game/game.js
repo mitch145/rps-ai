@@ -124,17 +124,20 @@ angular.module('Game',[])
 			}
 			console.log("Ai Logic - " + "Rock: "+ rock + " - Paper: "+paper + " - Scissors: " + scissors);
 			if(rock > paper){
-				// rock > paper, scissors unknown
-				if (rock > scissors) {
-					// rock highest, return paper
-					return this.moves['paper'];
-				} else if(scissors > paper){
-					// scissors highest, return rock
+				if (scissors > rock) {
+					// scissors greatest
 					return this.moves['rock'];
+				} else {
+					// rock greatest
+					return this.moves['paper'];
 				}
+			} else if(scissors > paper) {
+				// scissors greatest
+				return this.moves['rock'];
 			} else {
-				// default - program will bias to paper if even, return scissors
+				// paper greatest
 				return this.moves['scissors'];
+
 			}
 			
 		};
