@@ -30,9 +30,13 @@ angular.module('Game',[])
 				id: 'random',
 				name: 'Random'
 			},
-			'count' : {
-				id: 'count',
-				name: 'Basic'
+			'count1' : {
+				id: 'count1',
+				name: 'Basic AI Type 1'
+			},
+			'count2' : {
+				id: 'count2',
+				name: 'Basic AI Type 2'
 			}
 		};
 
@@ -88,10 +92,12 @@ angular.module('Game',[])
 		};
 
 		this.setAIMove = function(){
-			if(this.ai.current == 'count'){
+			if(this.ai.current == 'count1'){
 				aiMove = this.countAIMove();
 			} else if(this.ai.current == 'random'){
 				aiMove = this.randomAIMove();
+			} else if(this.ai.current == 'count2'){
+				aiMove = this.countAILimitedMove();
 			}
 			return aiMove;
 		};
@@ -137,9 +143,45 @@ angular.module('Game',[])
 			} else {
 				// paper greatest
 				return this.moves['scissors'];
-
 			}
-			
+		};
+
+		this.countAILimitedMove = function (){
+			rock = 0;
+			paper = 0;
+			scissors = 0;
+
+			numMovesToCount = 10;
+			if(this.playerMoves.length > numMovesToCount){
+				startIndex = this.playerMoves.length-numMovesToCount;
+			} else {
+				startIndex = 0;
+			}
+			for(i=startIndex; i<this.playerMoves.length; i++){
+				if(this.playerMoves[i] == 'rock'){
+					rock++;
+				} else if(this.playerMoves[i] == 'paper'){
+					paper++;
+				} else if(this.playerMoves[i] == 'scissors'){
+					scissors++;
+				}
+			}
+			console.log("Ai Logic - " + "Rock: "+ rock + " - Paper: "+paper + " - Scissors: " + scissors);
+			if(rock > paper){
+				if (scissors > rock) {
+					// scissors greatest
+					return this.moves['rock'];
+				} else {
+					// rock greatest
+					return this.moves['paper'];
+				}
+			} else if(scissors > paper) {
+				// scissors greatest
+				return this.moves['rock'];
+			} else {
+				// paper greatest
+				return this.moves['scissors'];
+			}
 		};
 
 	});
