@@ -14,7 +14,7 @@ angular.module('RockPaperScissorsApp', ['Game'])
 		};
 
 		// Finalise/submit choice of AI
-		this.finaliseAIChoice = function(){
+		this.beginGame = function(){
 			this.choice = false;
 		};
 		
