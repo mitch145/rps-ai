@@ -37,6 +37,10 @@ angular.module('Game',[])
 			'count2' : {
 				id: 'count2',
 				name: 'Basic AI Type 2'
+			},
+			'pattern' : {
+				id: 'pattern',
+				name: 'Pattern AI Type 1'
 			}
 		};
 
@@ -47,6 +51,7 @@ angular.module('Game',[])
 
 		// Play round
 		this.playRound = function(playerMove){
+			console.log(this.ai.current);
 			this.playerMoves[this.playerMoves.length] = playerMove.id;
 			aiMove = this.setAIMove();
 			this.score.result = this.resolveWinner(playerMove, aiMove);
@@ -98,6 +103,8 @@ angular.module('Game',[])
 				aiMove = this.randomAIMove();
 			} else if(this.ai.current == 'count2'){
 				aiMove = this.countAILimitedMove();
+			} else if(this.ai.current =='pattern'){
+				aiMove = this.patternAIMove();
 			}
 			return aiMove;
 		};
@@ -105,7 +112,7 @@ angular.module('Game',[])
 			min = 1;
 			max = 3;
 			aiMove = Math.floor(Math.random() * (max - min + 1) + min);
-			console.log("AI Logic: Just joking, it's random.")
+			console.log("AI Logic: Just joking, it's random.");
 			if (aiMove == 1){
 				return this.moves['rock'];
 			} else if (aiMove == 2){
@@ -184,4 +191,31 @@ angular.module('Game',[])
 			}
 		};
 
+		this.patternAIMove = function(){
+			if(this.playerMoves.length < 10){
+				return this.countAILimitedMove();
+			} else {
+				searchArray = this.playerMoves;
+				searchArray = searchArray.slice(-5);
+				console.log("AI Logic: Pattern Matching");
+				count = 0;
+				while(searchArray.length > 0 && count == 0){
+					// search playerMoves with
+					console.log("_________");
+					console.log(this.playerMoves);
+					// loop through  playerMoves with searchArray
+					for(i = 0; i < this.playerMoves.length - searchArray.length; i++){
+						console.log(i);
+						// loop through search array and playerMoves checking if it matches
+						for(j = 0; j < searchArray.length; j++){
+							if(this.playerMoves[i] == searchArray[i])
+						}
+					}
+
+					console.log("searchArray.length: " + searchArray.length);
+					searchArray.shift();
+				}
+				return this.moves['rock'];
+			}
+		};
 	});
