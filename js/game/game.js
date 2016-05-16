@@ -199,21 +199,27 @@ angular.module('Game',[])
 				searchArray = searchArray.slice(-5);
 				console.log("AI Logic: Pattern Matching");
 				count = 0;
-				while(searchArray.length > 0 && count == 0){
-					// search playerMoves with
+				// progressively reduces length of searchArray
+				while(searchArray.length > 0 && count === 0){
 					console.log("_________");
 					console.log(this.playerMoves);
-					// loop through  playerMoves with searchArray
+					console.log(searchArray);
+					// iterate through playermoves, to get initial search index
 					for(i = 0; i < this.playerMoves.length - searchArray.length; i++){
-						console.log(i);
-						// loop through search array and playerMoves checking if it matches
+						// check from intitial index in playerMoves and initial index of searchArray, if identical move to next, else break
 						for(j = 0; j < searchArray.length; j++){
-							if(this.playerMoves[i] == searchArray[i])
+							if(this.playerMoves[i + j] == searchArray[j]){
+								console.log('Found at: '+i);
+								console.log(this.playerMoves);
+								console.log(searchArray);
+								continue;
+							} else {
+								break;
+							}
 						}
 					}
-
-					console.log("searchArray.length: " + searchArray.length);
 					searchArray.shift();
+					console.log("searchArray.length: " + searchArray.length);
 				}
 				return this.moves['rock'];
 			}
