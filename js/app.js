@@ -170,7 +170,6 @@ angular.module('RockPaperScissorsApp', [])
 					ties++;
 				}
 			}
-			console.log("AI: "+ aiWins +" | Player: "+ playerWins +" | Ties: " + ties);
 			if(playerWins !== 0){
 				this.scorePercent[0] = ((playerWins/this.moves.length)*100) + "%";
 			} else {
@@ -186,8 +185,84 @@ angular.module('RockPaperScissorsApp', [])
 			} else {
 				this.scorePercent[1] = "0%";
 			}
+	};
+
+
+	// Firebase
+	
+	// Initialize Firebase
+	var config = {
+		apiKey: "AIzaSyCyJMeTo0e83l_3_NZF_zP4jTJvQPMg-VQ",
+		authDomain: "rockpaperscissors-da86b.firebaseapp.com",
+		databaseURL: "https://rockpaperscissors-da86b.firebaseio.com",
+		storageBucket: "rockpaperscissors-da86b.appspot.com",
+	};
+	firebase.initializeApp(config);
+
+	// Get a ref to the database service
+	var database = firebase.database();
+
+	// Initialise $scope.todos
+	database.ref('scores/').once('value', function(snapshot) {
+		$scope.$apply(function() {
+			
+			$scope.scores = [];
+			snapshot.forEach(function(childSnapshot) {
+				$scope.todos.push(childSnapshot.val());
+				console.log($scope.todos);
+			});
+		});
+	});
+
+	this.uploadHighscore = function uploadHighscore(name) {
+		
+		// Calculate score
+		playerWins = 0;
+		aiWins = 0;
+		ties = 0;
+		for(i = 0; i < this.moves.length; i++){
+			if(this.moves[i].winner == 'AI Win'){
+				aiWins++;
+			} else if(this.moves[i].winner == 'Player Win'){
+				playerWins++;
+			} if(this.moves[i].winner == 'Tie'){
+				ties++;
+			}
+		}
+
+		// Get a key for a new Post.
+		var newPostKey = database.ref().child('posts').push().key;
+
+		// A post entry.
+		var postData = {
+			key: newPostKey,
+			name: name,
+			moves: this.moves,
+			playerWins: playerWins,
+			aiWins: aiWins,
+			ties: ties,
+			scorePercent: this.scorePercent
 		};
 
+		// Reset Stuff
+
+		// Choice of ai in start menu
+		this.aiChoice = 'Basic 2';
+		// Whether game has started (passed through selection menu) or not, false by default
+		this.gameStarted = false;
+		// Current move selected by player
+		this.currentMove = 'rock';
+		// Previous moves
+		this.moves = [];
+		// Score percentages
+		this.scorePercent = ['33%', '34%', '33%'];
+
+		// Write the new post's data
+		var updates = {};
+		updates['/scores/' + newPostKey] = postData;
+
+		return database.ref().update(updates);
+	};
 
 
 	// Enable tooltips for score panel
