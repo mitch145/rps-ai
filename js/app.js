@@ -2,12 +2,13 @@ angular.module('RockPaperScissorsApp', [])
 .controller("GameController", function($scope) {
 
 	// Variable declarations
+	// Choice of ai in start menu
 	this.aiChoice = 'random';
+	// Whether game has started (passed through selection menu) or not
+	this.gameStarted = false;
+	// Current move selected by player
+	this.currentMove = 'rock';
 
-
-	this.printChoice = function(){
-		console.log(this.aiChoice);
-	};
 
 	// Enable tooltips
 	$(function () {

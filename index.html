@@ -7,10 +7,15 @@
 	<link rel="stylesheet" href="css/bootstrap.css">
 	<link rel="stylesheet" href="css/style.css">
 	<link rel="stylesheet" href="css/font-awesome.css">
+	<!-- JQuery -->
 	<script src="js/jquery.js"></script>
+	<!-- Bootstrap -->
 	<script src="js/bootstrap.js"></script>
+	<!-- AngularJS -->
 	<script src="js/angular.js"></script>
+	<!-- Firebase -->
 	<script src="https://cdn.firebase.com/js/client/2.2.4/firebase.js"></script>
+	<!-- AngularFire -->
 	<script src="https://cdn.firebase.com/libs/angularfire/1.2.0/angularfire.min.js"></script>
 	<script src="js/app.js"></script>
 	<!-- <script src="js/rockPaperScissorsApp.js"></script>
@@ -29,27 +34,27 @@
 
 	<div class="container" ng-controller="GameController as GameCtrl">
 		<div class="row">
-			<div class="col-sm-12">
+			<div class="col-sm-12" ng-hide="GameCtrl.gameStarted">
 				<h2 class="text-center">Pick your AI:</h2>
 				<br>
 				<div class="btn-group btn-group-justified">
 					<a ng-click="GameCtrl.aiChoice = 'random'" class="btn btn-default">Random AI</a>
 					<a ng-click="GameCtrl.aiChoice = 'count1'" class="btn btn-default">Basic AI Type 1</a>
 					<a ng-click="GameCtrl.aiChoice = 'count2'" class="btn btn-default">Basic AI Type 2</a>
-					<a ng-click="GameCtrl.aiChoice = 'pattern'" class="btn btn-default">Pattern AI Type 1</a>
+					<!-- <a ng-click="GameCtrl.aiChoice = 'pattern'" class="btn btn-default">Pattern AI Type 1</a> -->
 				</div>
 				<div class="btn btn-lg center-block full-width">
-					<a ng-click="GameCtrl.printChoice()" class="btn btn-primary btn-lg">Begin with {{GameCtrl.aiChoice}}</a>
+					<a ng-click="GameCtrl.gameStarted = true" class="btn btn-primary btn-lg">Begin with {{GameCtrl.aiChoice}}</a>
 				</div>
 				<br>
 			</div>
-			<!-- <div class="col-sm-12" ng-hide="choice">
+			<div class="col-sm-12" ng-show="GameCtrl.gameStarted">
 				<h2 class="text-center">Make your Move:</h2>
 				<br>
 				<div class="btn-group btn-group-justified">
-					<a ng-click="GameCtrl.sendMove('rock')" class="btn btn-default"><i class="fa fa-lg fa-hand-rock-o"></i> Rock</a>
-					<a ng-click="GameCtrl.sendMove('paper')" class="btn btn-default"><i class="fa fa-lg fa-hand-paper-o"></i> Paper</a>
-					<a ng-click="GameCtrl.sendMove('scissors')" class="btn btn-default"><i class="fa fa-lg fa-hand-scissors-o"></i> Scissors</a>
+					<a ng-click="GameCtrl.currentMove = 'Rock'" class="btn btn-default"><i class="fa fa-lg fa-hand-rock-o"></i> Rock</a>
+					<a ng-click="GameCtrl.currentMove = 'Paper'" class="btn btn-default"><i class="fa fa-lg fa-hand-paper-o"></i> Paper</a>
+					<a ng-click="GameCtrl.currentMove = 'Scissors'" class="btn btn-default"><i class="fa fa-lg fa-hand-scissors-o"></i> Scissors</a>
 				</div>
 				<div class="text-center">
 					<h3>Player - {{GameCtrl.lastPlayerMove}}<i ng-class="" class="fa fa-lg"></i> vs. <i ng-class="" class="fa fa-lg"></i>{{GameCtrl.game.aiMove.id}} - AI</h3>
@@ -64,7 +69,7 @@
 					<div class="progress-bar progress-bar-warning" data-toggle="tooltip" data-placement="bottom" data-original-title="Ties" ng-style="{'width': GameCtrl.game.score.scorePercent[1]}"></div>
 					<div class="progress-bar progress-bar-danger" data-toggle="tooltip" data-placement="bottom" data-original-title="AI Wins" ng-style="{'width': GameCtrl.game.score.scorePercent[2]}"></div>
 				</div>
-			</div> -->
+			</div>
 			
 		</div>
 	</div>
