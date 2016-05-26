@@ -7,13 +7,4 @@ angular.module('RockPaperScissorsApp', ['Game'])
 			this.game.playRound(GameManager.moves[move]);
 			this.lastPlayerMove = this.game.playerMoves[this.game.playerMoves.length-1];
 		};
-
-		
-
-		// Finalise/submit choice of AI
-		this.beginGame = function(){
-			this.choice = false;
-		};
-		
-
 });

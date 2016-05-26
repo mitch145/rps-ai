@@ -4,3 +4,15 @@
 .follow-btn{
 	width: 100%;
 }
+
+.move-selection i{
+	padding: 20px;
+}
+
+.move-selection p{
+	font-size: 12px;
+}
+
+.news-feed{
+	height: 80vh;
+}

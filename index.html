@@ -33,8 +33,8 @@
 	</nav>
 
 	<div class="container" ng-controller="GameController as GameCtrl">
-		<div class="row">
-			<div class="col-sm-12" ng-hide="GameCtrl.gameStarted">
+		<div class="row" ng-hide="GameCtrl.gameStarted">
+			<div class="col-sm-12">
 				<h2 class="text-center">Pick your AI:</h2>
 				<br>
 				<div class="btn-group btn-group-justified">
@@ -48,13 +48,19 @@
 				</div>
 				<br>
 			</div>
-			<div class="col-sm-12" ng-show="GameCtrl.gameStarted">
+		</div>
+		<div class="row" ng-show="GameCtrl.gameStarted">
+			<div class="col-xs-12 col-sm-6">
 				<h2 class="text-center">Make your Move:</h2>
+				<h2 class="visible-xs">xs</h2>
 				<br>
-				<div class="btn-group btn-group-justified">
-					<a ng-click="GameCtrl.currentMove = 'Rock'" class="btn btn-default"><i class="fa fa-lg fa-hand-rock-o"></i> Rock</a>
-					<a ng-click="GameCtrl.currentMove = 'Paper'" class="btn btn-default"><i class="fa fa-lg fa-hand-paper-o"></i> Paper</a>
-					<a ng-click="GameCtrl.currentMove = 'Scissors'" class="btn btn-default"><i class="fa fa-lg fa-hand-scissors-o"></i> Scissors</a>
+				<div class="btn-group btn-group-justified move-selection">
+					<a ng-click="GameCtrl.currentMove = 'Rock'" class="btn btn-default"><i class="fa fa-5x fa-hand-rock-o"></i><p>Rock</p></a>
+					<a ng-click="GameCtrl.currentMove = 'Paper'" class="btn btn-default"><i class="fa fa-5x fa-hand-paper-o"></i><p>Paper</p></a>
+					<a ng-click="GameCtrl.currentMove = 'Scissors'" class="btn btn-default"><i class="fa fa-5x fa-hand-scissors-o"></i><p>Scissors</p></a>
+				</div>
+				<div class="btn btn-lg center-block full-width">
+					<a ng-click="GameCtrl.makeMove()" class="btn btn-primary btn-lg">Choose {{GameCtrl.currentMove}}</a>
 				</div>
 				<div class="text-center">
 					<h3>Player - {{GameCtrl.lastPlayerMove}}<i ng-class="" class="fa fa-lg"></i> vs. <i ng-class="" class="fa fa-lg"></i>{{GameCtrl.game.aiMove.id}} - AI</h3>
@@ -70,7 +76,14 @@
 					<div class="progress-bar progress-bar-danger" data-toggle="tooltip" data-placement="bottom" data-original-title="AI Wins" ng-style="{'width': GameCtrl.game.score.scorePercent[2]}"></div>
 				</div>
 			</div>
-			
+			<div class="col-xs-12 col-sm-6">
+				<div class="well news-feed">
+					<div ng-repeat="move in GameCtrl.moves track by $index">
+						{{move}}
+
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 
