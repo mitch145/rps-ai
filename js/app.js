@@ -3,38 +3,43 @@ angular.module('RockPaperScissorsApp', [])
 
 	// Variable declarations
 	// Choice of ai in start menu
-	this.aiChoice = 'random';
+	this.aiChoice = 'Basic 2';
 	// Whether game has started (passed through selection menu) or not, false by default
-	this.gameStarted = true;
+	this.gameStarted = false;
 	// Current move selected by player
 	this.currentMove = 'rock';
 	// Previous moves
 	this.moves = [];
+	// Score percentages
+	this.scorePercent = ['33%', '34%', '33%'];
 
 	this.makeMove = function(){
 		// Get ai response
-		aiMove = getaiMove();
-		playRound(aiMove);
+		aiMove = getaiMove(this.aiChoice, this.moves);
+		winner = resolveWinner(aiMove, this.currentMove);
 
 		// Add move to array
 		this.moves.push({
 			playerMove: this.currentMove,
-			aiMove: 'Scissors'
+			aiMove: aiMove,
+			winner: winner
 		});
 
 		// Scroll to bottom of terminal element
 		var elem = document.getElementById('news-feed');
 		elem.scrollTop = elem.scrollHeight;
-		console.log(this.moves);
+
+		// Update score percentages
+		this.calculateScorePercent();
 	};
 
-	getAIMove = function(){
-		if(this.aiChoice == 'count1'){
-			aiMove = countAIMove();
-		} else if(this.aiChoice == 'random'){
+	getaiMove = function(aiChoice, moves){
+		if(aiChoice == 'Basic 1'){
+			aiMove = countAIMove(moves);
+		} else if(aiChoice == 'Random'){
 			aiMove = randomAIMove();
-		} else if(this.aiChoice == 'count2'){
-			aiMove = countAILimitedMove();
+		} else if(aiChoice == 'Basic 2'){
+			aiMove = countAILimitedMove(moves);
 		}
 		// else if(this.aiChoice =='pattern'){
 		//	aiMove = this.patternAIMove();
@@ -42,22 +47,146 @@ angular.module('RockPaperScissorsApp', [])
 		return aiMove;
 	};
 
+	resolveWinner = function(aiMove, playerMove){
+		if(playerMove == aiMove){
+			return 'Tie';
+		} else if (playerMove == 'Rock'){
+			if (aiMove == 'Paper'){
+				return 'AI Win';
+			} else if (aiMove == 'Scissors'){
+				return 'Player Win';
+			}
+		} else if (playerMove == 'Paper'){
+			if (aiMove == 'Scissors'){
+				return 'AI Win';
+			} else if (aiMove == 'Rock'){
+				return 'Player Win';
+			}
+		} else if (playerMove == 'Scissors'){
+			if (aiMove == 'Rock'){
+				return 'AI Win';
+			} else if (aiMove == 'Paper'){
+				return 'Player Win';
+			}
+		}
+	};
+
 	randomAIMove = function(){
 		min = 1;
 		max = 3;
 		aiMove = Math.floor(Math.random() * (max - min + 1) + min);
-		console.log("AI Logic: Just joking, it's random.");
+		// console.log("AI Logic: Just joking, it's random.");
 		if (aiMove == 1){
-			return 'rock';
+			return 'Rock';
 		} else if (aiMove == 2){
-			return 'paper';
+			return 'Paper';
 		} else {
-			return 'scissors';
+			return 'Scissors';
 		}
 	};
 
+	countAIMove = function (moves){
+		rock = 0;
+		paper = 0;
+		scissors = 0;
+		for(i=0; i<moves.length; i++){
+			if(moves[i].playerMove == 'Rock'){
+				rock++;
+			} else if(moves[i].playerMove == 'Paper'){
+				paper++;
+			} else if(moves[i].playerMove == 'Scissors'){
+				scissors++;
+			}
+		}
+		// console.log("Ai Logic - " + "Rock: "+ rock + " - Paper: "+paper + " - Scissors: " + scissors);
+		if(rock > paper){
+			if (scissors > rock) {
+				// scissors greatest
+				return 'Rock';
+			} else {
+				// rock greatest
+				return 'Paper';
+			}
+		} else if(scissors > paper) {
+			// scissors greatest
+			return 'Rock';
+		} else {
+			// paper greatest
+			return 'Scissors';
+		}
+	};
 
+	countAILimitedMove = function (moves){
+		rock = 0;
+		paper = 0;
+		scissors = 0;
 
+		numMovesToCount = 10;
+		if(moves.length > numMovesToCount){
+			startIndex = moves.length-numMovesToCount;
+		} else {
+			startIndex = 0;
+		}
+		for(i=startIndex; i<moves.length; i++){
+			if(moves[i].playerMove == 'Rock'){
+				rock++;
+			} else if(moves[i].playerMove == 'Paper'){
+				paper++;
+			} else if(moves[i].playerMove == 'Scissors'){
+				scissors++;
+			}
+		}
+		// console.log("Ai Logic - " + "Rock: "+ rock + " - Paper: "+paper + " - Scissors: " + scissors);
+		if(rock > paper){
+			if (scissors > rock) {
+				// scissors greatest
+				return 'Rock';
+			} else {
+				// rock greatest
+				return 'Paper';
+			}
+		} else if(scissors > paper) {
+			// scissors greatest
+			return 'Rock';
+		} else {
+			// paper greatest
+			return 'Scissors';
+		}
+	};
+
+	// Calculates the score as a percentage
+	this.calculateScorePercent = function(){
+			
+			playerWins = 0;
+			aiWins = 0;
+			ties = 0;
+
+			for(i = 0; i < this.moves.length; i++){
+				if(this.moves[i].winner == 'AI Win'){
+					aiWins++;
+				} else if(this.moves[i].winner == 'Player Win'){
+					playerWins++;
+				} if(this.moves[i].winner == 'Tie'){
+					ties++;
+				}
+			}
+			console.log("AI: "+ aiWins +" | Player: "+ playerWins +" | Ties: " + ties);
+			if(playerWins !== 0){
+				this.scorePercent[0] = ((playerWins/this.moves.length)*100) + "%";
+			} else {
+				this.scorePercent[0] = "0%";
+			}
+			if(aiWins !== 0){
+				this.scorePercent[2] = ((aiWins/this.moves.length)*100) + "%";
+			} else {
+				this.scorePercent[2] = "0%";
+			}
+			if(ties !== 0){
+				this.scorePercent[1] = ((ties/this.moves.length)*100) + "%";
+			} else {
+				this.scorePercent[1] = "0%";
+			}
+		};
 
 
 

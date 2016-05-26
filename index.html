@@ -38,9 +38,9 @@
 				<h2 class="text-center">Pick your AI:</h2>
 				<br>
 				<div class="btn-group btn-group-justified">
-					<a ng-click="GameCtrl.aiChoice = 'random'" class="btn btn-default">Random AI</a>
-					<a ng-click="GameCtrl.aiChoice = 'count1'" class="btn btn-default">Basic AI Type 1</a>
-					<a ng-click="GameCtrl.aiChoice = 'count2'" class="btn btn-default">Basic AI Type 2</a>
+					<a ng-click="GameCtrl.aiChoice = 'Random'" class="btn btn-default">Random AI</a>
+					<a ng-click="GameCtrl.aiChoice = 'Basic 1'" class="btn btn-default">Basic AI Type 1</a>
+					<a ng-click="GameCtrl.aiChoice = 'Basic 2'" class="btn btn-default">Basic AI Type 2</a>
 					<!-- <a ng-click="GameCtrl.aiChoice = 'pattern'" class="btn btn-default">Pattern AI Type 1</a> -->
 				</div>
 				<div class="btn btn-lg center-block full-width">
@@ -61,27 +61,23 @@
 				<div class="btn btn-lg center-block full-width">
 					<a ng-click="GameCtrl.makeMove()" class="btn btn-primary btn-lg">Choose {{GameCtrl.currentMove}}</a>
 				</div>
-				<div class="text-center">
-					<h3>Player - {{GameCtrl.lastPlayerMove}}<i ng-class="" class="fa fa-lg"></i> vs. <i ng-class="" class="fa fa-lg"></i>{{GameCtrl.game.aiMove.id}} - AI</h3>
-
-					<h3>Winner: {{GameCtrl.game.score.result.message}}</h3>
-					<h3>Score: {{GameCtrl.game.score.scores[0]}}-{{GameCtrl.game.score.scores[1]}}-{{GameCtrl.game.score.scores[2]}}</h3>
-					<h3>Total Games: {{totalGames}}</h3>
-				</div>
-
+				<h3 class="text-center">Score Bar</h3>
 				<div class="progress">
-					<div class="progress-bar progress-bar-success" data-toggle="tooltip" data-placement="bottom" data-original-title="Player Wins" ng-style="{'width': GameCtrl.game.score.scorePercent[0]}"></div>
-					<div class="progress-bar progress-bar-warning" data-toggle="tooltip" data-placement="bottom" data-original-title="Ties" ng-style="{'width': GameCtrl.game.score.scorePercent[1]}"></div>
-					<div class="progress-bar progress-bar-danger" data-toggle="tooltip" data-placement="bottom" data-original-title="AI Wins" ng-style="{'width': GameCtrl.game.score.scorePercent[2]}"></div>
+					<div class="progress-bar progress-bar-success" data-toggle="tooltip" data-placement="bottom" data-original-title="Player Wins" ng-style="{'width': GameCtrl.scorePercent[0]}"></div>
+					<div class="progress-bar progress-bar-warning" data-toggle="tooltip" data-placement="bottom" data-original-title="Ties" ng-style="{'width': GameCtrl.scorePercent[1]}"></div>
+					<div class="progress-bar progress-bar-danger" data-toggle="tooltip" data-placement="bottom" data-original-title="AI Wins" ng-style="{'width': GameCtrl.scorePercent[2]}"></div>
 				</div>
 			</div>
 			<div class="col-xs-12 col-sm-6">
 				<div class="well" id="news-feed">
 					<p>Welcome to rpsTerminal</p>
 					<div ng-repeat="move in GameCtrl.moves track by $index">
-						<p>> {{move.playerMove}} v. {{move.aiMove}}</p>
+						<p>> {{move.playerMove}}</p>
+						<p>AI: {{move.aiMove}}</p>
+						<p>Winner: {{move.winner}}</p>
 					</div>
 					<p>><span class="blinking-cursor">_</span></p>
+					<br><br>
 				</div>
 			</div>
 		</div>
