@@ -13,10 +13,13 @@ angular.module('RockPaperScissorsApp', [])
 
 	this.makeMove = function(){
 		this.moves.push(this.currentMove + " v. N/A");
+		// Scrolls to bottom of terminal element
+		var elem = document.getElementById('news-feed');
+		elem.scrollTop = elem.scrollHeight;
 		console.log(this.moves);
 	};
 
-	// Enable tooltips
+	// Enable tooltips for score panel
 	$(function () {
 		$('[data-toggle="tooltip"]').tooltip();
 	});

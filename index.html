@@ -52,7 +52,6 @@
 		<div class="row" ng-show="GameCtrl.gameStarted">
 			<div class="col-xs-12 col-sm-6">
 				<h2 class="text-center">Make your Move:</h2>
-				<h2 class="visible-xs">xs</h2>
 				<br>
 				<div class="btn-group btn-group-justified move-selection">
 					<a ng-click="GameCtrl.currentMove = 'Rock'" class="btn btn-default"><i class="fa fa-5x fa-hand-rock-o"></i><p>Rock</p></a>
@@ -77,15 +76,13 @@
 				</div>
 			</div>
 			<div class="col-xs-12 col-sm-6">
-				<div class="well news-feed">
+				<div class="well" id="news-feed">
 					<div ng-repeat="move in GameCtrl.moves track by $index">
-						{{move}}
-
+						<p>{{move}}</p>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-
 </body>
 </html>
