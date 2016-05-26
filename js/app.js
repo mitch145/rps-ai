@@ -12,6 +12,8 @@ angular.module('RockPaperScissorsApp', [])
 	this.moves = [];
 	// Score percentages
 	this.scorePercent = ['33%', '34%', '33%'];
+	// Initialise name
+	this.name = '';
 
 	this.makeMove = function(){
 		// Get ai response
@@ -214,7 +216,7 @@ angular.module('RockPaperScissorsApp', [])
 		});
 	});
 
-	this.uploadHighscore = function uploadHighscore(name) {
+	this.uploadHighscore = function uploadHighscore() {
 		
 		// Calculate score
 		playerWins = 0;
@@ -236,12 +238,13 @@ angular.module('RockPaperScissorsApp', [])
 		// A post entry.
 		var postData = {
 			key: newPostKey,
-			name: name,
+			name: this.name,
 			moves: this.moves,
 			playerWins: playerWins,
 			aiWins: aiWins,
 			ties: ties,
-			scorePercent: this.scorePercent
+			scorePercent: this.scorePercent,
+			ai: this.aiChoice
 		};
 
 		// Reset Stuff
