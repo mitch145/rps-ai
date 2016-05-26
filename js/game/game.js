@@ -91,32 +91,6 @@ angular.module('Game',[])
 			}
 		};
 
-		this.setAIMove = function(){
-			if(this.ai.current == 'count1'){
-				aiMove = this.countAIMove();
-			} else if(this.ai.current == 'random'){
-				aiMove = this.randomAIMove();
-			} else if(this.ai.current == 'count2'){
-				aiMove = this.countAILimitedMove();
-			} else if(this.ai.current =='pattern'){
-				aiMove = this.patternAIMove();
-			}
-			return aiMove;
-		};
-		this.randomAIMove = function(){
-			min = 1;
-			max = 3;
-			aiMove = Math.floor(Math.random() * (max - min + 1) + min);
-			console.log("AI Logic: Just joking, it's random.");
-			if (aiMove == 1){
-				return this.moves['rock'];
-			} else if (aiMove == 2){
-				return this.moves['paper'];
-			} else {
-				return this.moves['scissors'];
-			}
-		};
-
 		this.countAIMove = function (){
 			rock = 0;
 			paper = 0;

@@ -77,9 +77,11 @@
 			</div>
 			<div class="col-xs-12 col-sm-6">
 				<div class="well" id="news-feed">
+					<p>Welcome to rpsTerminal</p>
 					<div ng-repeat="move in GameCtrl.moves track by $index">
-						<p>{{move}}</p>
+						<p>> {{move.playerMove}} v. {{move.aiMove}}</p>
 					</div>
+					<p>><span class="blinking-cursor">_</span></p>
 				</div>
 			</div>
 		</div>
