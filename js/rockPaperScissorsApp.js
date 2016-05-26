@@ -8,19 +8,12 @@ angular.module('RockPaperScissorsApp', ['Game'])
 			this.lastPlayerMove = this.game.playerMoves[this.game.playerMoves.length-1];
 		};
 
-		// Send choice of AI
-		this.sendAIChoice = function(aiChoice){
-			this.game.chooseAI(aiChoice);
-		};
+		
 
 		// Finalise/submit choice of AI
 		this.beginGame = function(){
 			this.choice = false;
 		};
 		
-		// Enable tooltips
-		$(function () {
-			$('[data-toggle="tooltip"]').tooltip();
-		});
 
 });

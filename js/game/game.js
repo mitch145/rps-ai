@@ -44,11 +44,6 @@ angular.module('Game',[])
 			}
 		};
 
-		// AI Choice
-		this.chooseAI = function(aiChoice){
-			this.ai.current = aiChoice;
-		};
-
 		// Play round
 		this.playRound = function(playerMove){
 			console.log(this.ai.current);
