@@ -7,7 +7,7 @@ angular.module('RockPaperScissorsApp', [])
 	// Whether game has started (passed through selection menu) or not, false by default
 	this.gameStarted = false;
 	// Current move selected by player
-	this.currentMove = 'rock';
+	this.currentMove = 'Rock';
 	// Previous moves
 	this.moves = [];
 	// Score percentages
@@ -173,20 +173,33 @@ angular.module('RockPaperScissorsApp', [])
 				}
 			}
 			if(playerWins !== 0){
-				this.scorePercent[0] = ((playerWins/this.moves.length)*100);
+				this.scorePercent[0] = ((playerWins/this.moves.length)*100 + '%');
+				this.scorePercent[3] = (Math.floor((playerWins/this.moves.length)*100) + '%');
+				this.scorePercent[6] = (playerWins/this.moves.length)*100;
 			} else {
-				this.scorePercent[0] = 0;
+				this.scorePercent[0] = '0%';
+				this.scorePercent[3] = '0%';
+				this.scorePercent[6] = 0;
 			}
 			if(aiWins !== 0){
-				this.scorePercent[2] = ((aiWins/this.moves.length)*100);
+				this.scorePercent[2] = ((aiWins/this.moves.length)*100 + '%');
+				this.scorePercent[5] = (Math.floor((aiWins/this.moves.length)*100) + '%');
+				this.scorePercent[8] = (aiWins/this.moves.length)*100;
 			} else {
-				this.scorePercent[2] = 0;
+				this.scorePercent[2] = '0%';
+				this.scorePercent[5] = '0%';
+				this.scorePercent[8] = 0;
 			}
 			if(ties !== 0){
-				this.scorePercent[1] = ((ties/this.moves.length)*100);
+				this.scorePercent[1] = ((ties/this.moves.length)*100 + '%');
+				this.scorePercent[4] = (Math.floor((ties/this.moves.length)*100) + '%');
+				this.scorePercent[7] = (ties/this.moves.length)*100;
 			} else {
-				this.scorePercent[1] = 0;
+				this.scorePercent[1] = '0%';
+				this.scorePercent[4] = '0%';
+				this.scorePercent[7] = 0;
 			}
+			console.log(this.scorePercent);
 	};
 
 
@@ -213,12 +226,18 @@ angular.module('RockPaperScissorsApp', [])
 			snapshot.forEach(function(childSnapshot) {
 				$scope.scores.push(childSnapshot.val());
 			});
-			console.log($scope.scores);
+			//console.log($scope.scores);
 		});
 	});
 
 
-	this.uploadHighscore = function uploadHighscore() {	
+	this.uploadHighscore = function uploadHighscore() {
+		if(this.moves.length < 20){
+			console.log('Not enough moves');
+			window.alert("You must make at least 20 moves to upload your highscore!");
+			return;
+		}
+
 		// Calculate score
 		playerWins = 0;
 		aiWins = 0;
@@ -248,18 +267,7 @@ angular.module('RockPaperScissorsApp', [])
 			ai: this.aiChoice
 		};
 
-		// Reset Stuff
-
-		// Choice of ai in start menu
-		this.aiChoice = 'Basic 2';
-		// Whether game has started (passed through selection menu) or not, false by default
-		this.gameStarted = false;
-		// Current move selected by player
-		this.currentMove = 'rock';
-		// Previous moves
-		this.moves = [];
-		// Score percentages
-		this.scorePercent = ['33%', '34%', '33%'];
+		this.restartGame();
 
 		// Write the new post's data
 		var updates = {};
@@ -267,7 +275,23 @@ angular.module('RockPaperScissorsApp', [])
 
 		return database.ref().update(updates);
 	};
-
+	this.restartGame = function restartGame(){
+			// Back to menu
+			this.gameStarted = false;
+			// Choice of ai in start menu
+			this.aiChoice = 'Basic 2';
+			// Whether game has started (passed through selection menu) or not, false by default
+			this.gameStarted = false;
+			// Current move selected by player
+			this.currentMove = 'rock';
+			// Previous moves
+			this.moves = [];
+			// Name
+			this.name = '';
+			// Score percentages
+			this.scorePercent = ['33%', '34%', '33%'];
+			
+	}
 	// Watch the firebase database
 	firebase.database().ref('scores/').on('value', function(snapshot){
 		$scope.scores = snapshot.val();
@@ -276,17 +300,13 @@ angular.module('RockPaperScissorsApp', [])
 		snapshot.forEach(function(childSnapshot) {
 			$scope.scores.push(childSnapshot.val());
 		});
-		console.log($scope.scores);
+		//console.log($scope.scores);
 		// console.log($scope.todos.length);
 		// for(i = 0; i < $scope.todos.length; i++){
 		//   console.log($scope.todos[i].body);
 		// }
-		console.log("finished watch without crashing");
+		//console.log("finished watch without crashing");
 	});
-
-	$scope.testFunction = function(){
-		console.log($scope.scores[0].name);
-	}
 
 	// Enable tooltips for score panel
 	$(function () {

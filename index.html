@@ -35,10 +35,6 @@
 	<div class="container" ng-controller="GameController as GameCtrl">
 		<div class="row" ng-hide="GameCtrl.gameStarted">
 			<div class="col-sm-12">
-				<div>
-					<h2 class="text-center">Enter Your Name</h2>
-					<input type="text" class="form-control" ng-model="GameCtrl.name" id="inputDefault">
-				</div>
 				<h2 class="text-center">Pick your AI:</h2>
 				<br>
 				<div class="btn-group btn-group-justified">
@@ -51,30 +47,56 @@
 					<a ng-click="GameCtrl.gameStarted = true" class="btn btn-primary btn-lg">Begin with {{GameCtrl.aiChoice}}</a>
 				</div>
 				<br>
-
+				<h1>High Scores</h1>
+				<hr>
 				<table class="table table-striped table-hover">
 					<thead>
 						<tr>
-							<th>Place</th>
+							<th>#</th>
 							<th>Name</th>
-							<th>Wins</th>
-							<th>Ties</th>
-							<th>Losses</th>
-							<th>Games</th>
+							<th>W</th>
+							<th>T</th>
+							<th>L</th>
+							<th>Rounds</th>
+							<th>Ai</th>
 						</tr>
 					</thead>
-					<tr ng-repeat="score in scores | orderBy:'-scorePercent[0]'">
+					<tr ng-repeat="score in scores | orderBy:'-scorePercent[6]'">
 						<th>{{$index + 1}}</th>
 						<td>{{score.name}}</td>
-						<td>{{score.scorePercent[0] | number:0}}%</td>
-						<td>{{score.scorePercent[1] | number:0}}%</td>
-						<td>{{score.scorePercent[2] | number:0}}%</td>
+						<td>{{score.scorePercent[6] | number:0}}%</td>
+						<td>{{score.scorePercent[7] | number:0}}%</td>
+						<td>{{score.scorePercent[8] | number:0}}%</td>
 						<td>{{score.moves.length}}</td>
+						<td>{{score.ai}}</td>
 					</tr>
 				</table>
 			</div>
 		</div>
 		<div class="row" ng-show="GameCtrl.gameStarted">
+
+			
+
+			<!-- Modal -->
+			<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+			  <div class="modal-dialog" role="document">
+			    <div class="modal-content">
+			      <div class="modal-header">
+			        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			        <h2 class="text-center">Upload Highscore</h2>
+			      </div>
+			      <div class="modal-body">
+			      	<label for="name">Enter Name:</label>
+			        <input type="text" class="form-control" ng-model="GameCtrl.name" id="name">
+			      </div>
+			      <div class="modal-footer">
+			        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			        <button class="btn btn-primary" ng-click="GameCtrl.uploadHighscore()" data-dismiss="modal">Save changes</button>
+			      </div>
+			    </div>
+			  </div>
+			</div>
+
 			<div class="col-xs-12 col-sm-6">
 				<h2 class="text-center">Make your Move:</h2>
 				<br>
@@ -92,8 +114,9 @@
 					<div class="progress-bar progress-bar-warning" data-toggle="tooltip" data-placement="bottom" data-original-title="Ties" ng-style="{'width': GameCtrl.scorePercent[1]}"></div>
 					<div class="progress-bar progress-bar-danger" data-toggle="tooltip" data-placement="bottom" data-original-title="AI Wins" ng-style="{'width': GameCtrl.scorePercent[2]}"></div>
 				</div>
+				<p class="text-center" ng-show="GameCtrl.moves.length < 20">You must play at least 20 games to upload.</p>
 				<div class="btn btn-lg center-block full-width">
-					<a ng-click="GameCtrl.uploadHighscore()" class="btn btn-primary btn-lg">Upload Score</a>
+						<input type="button" ng-disabled="GameCtrl.moves.length < 20" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal" value="Upload Score"></input>
 				</div>
 			</div>
 
