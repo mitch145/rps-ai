@@ -173,19 +173,19 @@ angular.module('RockPaperScissorsApp', [])
 				}
 			}
 			if(playerWins !== 0){
-				this.scorePercent[0] = ((playerWins/this.moves.length)*100) + "%";
+				this.scorePercent[0] = ((playerWins/this.moves.length)*100);
 			} else {
-				this.scorePercent[0] = "0%";
+				this.scorePercent[0] = 0;
 			}
 			if(aiWins !== 0){
-				this.scorePercent[2] = ((aiWins/this.moves.length)*100) + "%";
+				this.scorePercent[2] = ((aiWins/this.moves.length)*100);
 			} else {
-				this.scorePercent[2] = "0%";
+				this.scorePercent[2] = 0;
 			}
 			if(ties !== 0){
-				this.scorePercent[1] = ((ties/this.moves.length)*100) + "%";
+				this.scorePercent[1] = ((ties/this.moves.length)*100);
 			} else {
-				this.scorePercent[1] = "0%";
+				this.scorePercent[1] = 0;
 			}
 	};
 
@@ -204,20 +204,21 @@ angular.module('RockPaperScissorsApp', [])
 	// Get a ref to the database service
 	var database = firebase.database();
 
+	
 	// Initialise $scope.todos
 	database.ref('scores/').once('value', function(snapshot) {
 		$scope.$apply(function() {
 			
 			$scope.scores = [];
 			snapshot.forEach(function(childSnapshot) {
-				$scope.todos.push(childSnapshot.val());
-				console.log($scope.todos);
+				$scope.scores.push(childSnapshot.val());
 			});
+			console.log($scope.scores);
 		});
 	});
 
-	this.uploadHighscore = function uploadHighscore() {
-		
+
+	this.uploadHighscore = function uploadHighscore() {	
 		// Calculate score
 		playerWins = 0;
 		aiWins = 0;
@@ -267,6 +268,25 @@ angular.module('RockPaperScissorsApp', [])
 		return database.ref().update(updates);
 	};
 
+	// Watch the firebase database
+	firebase.database().ref('scores/').on('value', function(snapshot){
+		$scope.scores = snapshot.val();
+
+		$scope.scores = [];
+		snapshot.forEach(function(childSnapshot) {
+			$scope.scores.push(childSnapshot.val());
+		});
+		console.log($scope.scores);
+		// console.log($scope.todos.length);
+		// for(i = 0; i < $scope.todos.length; i++){
+		//   console.log($scope.todos[i].body);
+		// }
+		console.log("finished watch without crashing");
+	});
+
+	$scope.testFunction = function(){
+		console.log($scope.scores[0].name);
+	}
 
 	// Enable tooltips for score panel
 	$(function () {
